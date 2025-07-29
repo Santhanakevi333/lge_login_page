@@ -41,7 +41,7 @@ import qrcode from "../assets/qrcode.png";
 
 
 const Login = () => {
-  
+
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const navigate = useNavigate();
@@ -93,7 +93,7 @@ const Login = () => {
       })
   }, []);
 
-  
+
   // emailpassword
 
   const handleEmailPasswordLogin = async () => {
@@ -197,9 +197,7 @@ const Login = () => {
           </div>
 
           {/* Footer */}
-          {/* ✅ Must be present for reCAPTCHA */}
-          <div id="recaptcha-container"></div>
-        </div>
+         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-between bg-white px-4 md:px-10 py-6">
           {/* Left side: CO2 & H2O */}
@@ -241,7 +239,7 @@ const Login = () => {
               <div className="fixed inset-0 backdrop-blur-md z-50 flex items-center justify-center">
                 <div className="relative max-w-4xl w-full p-4">
                   <button onClick={() => setPopupImageIndex(null)} className="absolute top-2 right-14 md:right-26
-      text-red-400 text-4xl font-bold hover:text-red-600">&times;</button>
+     text-red-400 text-4xl font-bold hover:text-red-600">&times;</button>
 
                   <img src={centuryImages[popupImageIndex]}
                     alt="popup" className="w-[90%] max-h-[80vh] object-contain rounded-xl" />
