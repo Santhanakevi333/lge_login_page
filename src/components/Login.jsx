@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import windmill from "../assets/windmill.jpg";
 import windmill2 from "../assets/windmill2.jpg";
 import windmill3 from "../assets/windmill3.jpg";
@@ -44,6 +45,7 @@ const Login = () => {
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [showImage, setShowImage] = useState(null);
   const [savedCO2, setSavedCO2] = useState("");
@@ -178,13 +180,22 @@ const Login = () => {
                 required
                 className="w-full border-gray-400 hover:outline-green-600 p-3 border rounded-xl bg-white" />
 
-              <input
-                type="password"
-                placeholder="Enter Password"
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-                required
-                className="w-full border-gray-400 hover:outline-green-600 p-3 border rounded-xl mt-3 bg-white " />
+             <div className="relative mt-3">
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Enter Password"
+    value={loginPassword}
+    onChange={(e) => setLoginPassword(e.target.value)}
+    required
+    className="w-full border-gray-400 hover:outline-green-600 p-3 pr-12 border rounded-xl bg-white"
+  />
+  <span
+    onClick={() => setShowPassword(!showPassword)}
+    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-xl cursor-pointer"
+  >
+    {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+  </span>
+</div>
 
               <button type="button"
                 onClick={handleEmailPasswordLogin}
@@ -197,7 +208,7 @@ const Login = () => {
           </div>
 
           {/* Footer */}
-         </div>
+        </div>
 
         <div className="flex flex-col md:flex-row items-center justify-between bg-white px-4 md:px-10 py-6">
           {/* Left side: CO2 & H2O */}
