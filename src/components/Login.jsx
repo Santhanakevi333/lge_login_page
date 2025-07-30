@@ -98,33 +98,39 @@ const Login = () => {
 
   // emailpassword
 
-  const handleEmailPasswordLogin = async () => {
-    if (!loginEmail || !loginPassword) {
-      alert("Please enter both email and password.");
-      return;
+ const handleEmailPasswordLogin = async () => {
+  if (!loginEmail || !loginPassword) {
+    alert("Please enter both email and password.");
+    return;
+  }
+
+  const apiURL = `http://172.16.7.118:8003/api/tamilnadu/wind/loginaccess.php?email=${encodeURIComponent(
+    loginEmail.trim()
+  )}&password=${encodeURIComponent(loginPassword.trim())}`;
+
+  try {
+    const response = await fetch(apiURL);
+    const data = await response.text();
+
+    const trimmedResponse = data.trim().toLowerCase();
+
+    // ✅ Allow login ONLY if response is NOT "invalid username password" AND email/password match exactly
+    if (
+      trimmedResponse !== "invalid username password" &&
+      loginEmail.trim() === "arul@leapgreenenergy.com" &&
+      loginPassword.trim() === "FrcstQca@2024"
+    ) {
+      window.location.href = "http://172.16.7.119:8004/dashboard.php";
+    } else {
+      alert("Invalid username or password.");
     }
+  } catch (error) {
+    console.error("Login error:", error);
+    alert("Network error: Could not connect to the server.");
+  }
+};
 
-    try {
-      const response = await fetch("http://localhost/login.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: loginEmail, password: loginPassword }),
-      });
 
-      const data = await response.json();
-
-      if (response.ok && data.success) {
-        navigate("/dashboard");
-      } else {
-        alert(data.message || "Login failed");
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-      alert("An error occurred during login.");
-    }
-  };
 
 
   return (
