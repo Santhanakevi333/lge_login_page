@@ -98,7 +98,9 @@ const Login = () => {
 
   // emailpassword
 
- const handleEmailPasswordLogin = async () => {
+ const handleEmailPasswordLogin = async (e) => {
+  e.preventDefault(); // ❗ Prevent form from reloading the page
+
   if (!loginEmail || !loginPassword) {
     alert("Please enter both email and password.");
     return;
@@ -110,25 +112,65 @@ const Login = () => {
 
   try {
     const response = await fetch(apiURL);
-    const data = await response.text();
+    const data = await response.json();
+    console.log("API response:", data); // 🔍 Debug output
 
-    const trimmedResponse = data.trim().toLowerCase();
-
-    // ✅ Allow login ONLY if response is NOT "invalid username password" AND email/password match exactly
-    if (
-      trimmedResponse !== "invalid username password" &&
-      loginEmail.trim() === "arul@leapgreenenergy.com" &&
-      loginPassword.trim() === "FrcstQca@2024"
-    ) {
-      window.location.href = "http://172.16.7.119:8004/dashboard.php";
-    } else {
-      alert("Invalid username or password.");
-    }
+    if (data === 'C') {					  
+				  window.location.href="intra_state_revisions.php";
+			  }
+			  else if (data === 'W') {					  
+				  window.location.href="dashboard.php";
+			  }
+			  else if (data === 'S') {					  
+				  window.location.href="solar/index.php";
+			  }
+			  else if(data === '141'){
+				  swal({
+				  title: "Info!",
+				  html:true,
+				  text: "You are in Approval Processing...",
+				  type: "info",
+				  showCancelButton: false,
+				  confirmButtonClass: "btn-danger",
+				  confirmButtonText: "Ok",
+				  closeOnConfirm: false,
+				  closeOnCancel: false
+				}); 
+			  }
+			  else if(data === '1')
+			  {
+				   swal({
+				  title: "Alert!",
+				  html:true,
+				  text: "Username/Password Incorrect!",
+				  type: "warning",
+				  showCancelButton: false,
+				  confirmButtonClass: "btn-danger",
+				  confirmButtonText: "Ok",
+				  closeOnConfirm: false,
+				  closeOnCancel: false
+				}); 
+			  }
+			  else
+			  {
+				  swal({
+				  title: "Alert!",
+				  html:true,
+				  text: "You are not Registerd User! Please Contact the QCA!",
+				  type: "warning",
+				  showCancelButton: false,
+				  confirmButtonClass: "btn-danger",
+				  confirmButtonText: "Ok",
+				  closeOnConfirm: false,
+				  closeOnCancel: false
+				}); 
+			  }
   } catch (error) {
     console.error("Login error:", error);
     alert("Network error: Could not connect to the server.");
   }
 };
+
 
 
 
@@ -177,9 +219,12 @@ const Login = () => {
           </div>
 
           <div className="space-y-4">
-            <div>
+            <form id="login_form"  onSubmit={handleEmailPasswordLogin}>
               <input
                 type="email"
+                name="email"
+                id="email"
+                  autocomplete="email"
                 placeholder="Enter email"
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
@@ -190,6 +235,9 @@ const Login = () => {
   <input
     type={showPassword ? "text" : "password"}
     placeholder="Enter Password"
+    name="password"
+    id="password"
+     autocomplete="current-password"
     value={loginPassword}
     onChange={(e) => setLoginPassword(e.target.value)}
     required
@@ -203,13 +251,13 @@ const Login = () => {
   </span>
 </div>
 
-              <button type="button"
-                onClick={handleEmailPasswordLogin}
+              <button type="submit" 
+                
                 className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold mt-2">
                 Login with Email
               </button>
 
-            </div>
+            </form>
 
           </div>
 
